@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Avoiding Conflicts with Other Libraries</title>
+  </head>
+  <body>
+    <p>
+      The jQuery library and virtually all of its plugins are contained within
+      the jQuery namespace. As a general rule, global objects are stored inside
+      the jQuery namespace as well, so you shouldn't get a clash between jQuery
+      and any other library (like prototype.js, MooTools, or YUI).
+    </p>
+    <p>
+      That said, there is one caveat/warning :
+      <b
+        >by default, jQuery uses $ as a shortcut for jQuery. Thus, if you are
+        using another JavaScript library that uses the $ variable, you can run
+        into conflicts with jQuery.</b
+      >
+      In order to avoid these conflicts, you need to put jQuery in no-conflict
+      mode immediately after it is loaded onto the page and before you attempt
+      to use jQuery in your page.
+    </p>
+    <ol>
+      In order to avoid these conflicts, we can choose any of the following
+      ways:
+      <li>
+        Put jQuery in no-conflict mode immediately after it is loaded onto the
+        page and before you attempt to use jQuery in your page.
+        <strong>-i.e., Create a New Alias</strong>
+        <br />
+        -when you put jQuery into no-conflict mode, you have the option of
+        assigning a new variable name to replace the $ alias.
+        <br />
+        <pre><code>
+            &lt;!-- Putting jQuery into no-conflict mode. --&gt;
+            &lt;script src="prototype.js"&gt;&lt;/script&gt;
+            &lt;script src="jquery.js"&gt;&lt;/script&gt;
+            &lt;script&gt;
+            
+            var $j = jQuery.noConflict();
+            // $j is now an alias to the jQuery function; creating the new alias is optional.
+            
+            $j(document).ready(function() {
+                $j( "h1" ).hide();
+            });
+            
+            // The $ variable now has the prototype meaning, which is a shortcut for
+            // document.getElementByTagName(). div below is a DOM element, not a jQuery object.
+            window.onload = function() {
+                var div = jQuery("div");
+                console.log(div);
+            }
+            
+            &lt;/script&gt;
+            </code></pre>
+      </li>
+      <li>
+        If you don't want to define another alternative to the full jQuery
+        function name (you really like to use $ and don't care about using the
+        other library's $ method), then there's still another approach you might
+        try: <br />
+        -simply add the $ as an argument passed to your jQuery( document
+        ).ready() function.
+        <strong
+          >-i.e., Use the Argument That's Passed to the jQuery( document
+          ).ready() Function</strong
+        >
+        This is most frequently used in the case where you still want the
+        benefits of really concise jQuery code, but don't want to cause
+        conflicts with other libraries. <br />This is probably the ideal
+        solution for most of your code, considering that there'll be less code
+        that you'll have to change in order to achieve complete compatibility.
+        <pre><code>
+            &lt;!-- Another way to put jQuery into no-conflict mode. --&gt;
+            &lt;script src=&quot;prototype.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+            &lt;script&gt;
+            
+            jQuery.noConflict();
+            
+            jQuery(document).ready(function($) {
+                // You can use the locally-scoped $ in here as an alias to jQuery.
+                $( "h1" ).hide();
+            });
+            
+            // The $ variable in the global scope now has the prototype.js meaning or its default behavior.
+            // To avoid conflict, use jQuery or another alias in the global scope.
+            window.onload = function() {
+                // Use jQuery directly or define an alias in the global scope
+                var div = jQuery("div");
+                console.log(div);
+            }
+            
+            &lt;/script&gt;
+            </code></pre>
+      </li>
+      <li>
+        Use an Immediately Invoked Function Expression <br />You can continue to
+        use the standard $ by wrapping your code in an immediately invoked
+        function expression; this is also a standard pattern for jQuery plugin
+        authoring, where the author cannot know whether another library will
+        have taken over the $ <br />
+        <pre><code>
+            &lt;!-- Using the $ inside an immediately-invoked function expression. --&gt;
+            &lt;script src=&quot;prototype.js&quot;&gt;&lt;/script&gt;
+            &lt;script src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+            &lt;script&gt;
+            
+            jQuery.noConflict();
+            
+            (function( $ ) {
+                // Your jQuery code here, using the $
+            })( jQuery );
+            
+            &lt;/script&gt;
+            </code></pre>
+      </li>
+    </ol>
+    <script src="../jQuery/jquery-3.7.1.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
