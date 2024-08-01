@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jQuery Presentation</title>
+  </head>
+  <body>
+    <div>
+      <p>
+        In jQuery, there is an important distinction between methods associated
+        with jQuery objects and methods that belong to the jQuery library
+        itself. This distinction can be understood through two main namespaces:
+        $.fn and $.
+      </p>
+    </div>
+    <div>
+      <h3>jQuery Object Methods ($.fn Namespace)</h3>
+      <p>
+        Methods that operate on jQuery objects are defined in the $.fn
+        namespace, also known as the jQuery prototype.
+      </p>
+      <ul>
+        <li>
+          Most jQuery methods (like .css(), .click(), .remove()) are called on
+          jQuery objects, like $( "h1" ).remove(). These methods are part of the
+          $.fn namespace, or the "jQuery prototype."
+          <ul>
+            <li>
+              The jQuery prototype, denoted as $.fn, is an object where all
+              jQuery object methods are defined. This allows all jQuery objects
+              to share methods efficiently through the prototype.
+            </li>
+            <li>
+              In summary, $.fn is the namespace where jQuery stores all its
+              object methods, making it central to the functionality and
+              extensibility of the library.
+            </li>
+            <li>
+              Some methods do not act on a selection; these are part of the
+              jQuery namespace and are considered core jQuery methods.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <b>What it is:</b> The $.fn namespace contains methods that can be
+          called on jQuery objects. A jQuery object is a wrapper around a set of
+          DOM elements, created when you select elements using the $() function,
+          such as $("h1").
+        </li>
+        <li>
+          <b>How it works:</b> When you call a method like .remove() on a jQuery
+          object ($("h1").remove()), you are using a method from the $.fn
+          namespace. These methods automatically receive the selected elements
+          as this, allowing them to perform actions like manipulating the DOM.
+        </li>
+        <li>
+          <b>Example:</b> In $( "h1" ).remove();, the remove() method is called
+          on a jQuery object containing <code>&lt;h1&gt;</code> elements,
+          removing them from the DOM.
+        </li>
+        <b>NOTE:</b>
+        We added "Item 1", "Item 2", "Item 3", etc., to the end of each < li >
+        element using the jQuery Object Method (.each(), part of the $.fn
+        namespace)
+      </ul>
+
+      <h3>Core jQuery Methods (Utility Methods, $ Namespace)</h3>
+      <p>
+        These methods are part of the core jQuery library and are directly
+        available on the jQuery object (represented by $).
+      </p>
+      <ul>
+        <li>
+          <b>What it is:</b> The $ namespace contains utility methods that are
+          part of the core jQuery library. These methods are not called on
+          jQuery objects; they serve broader purposes like handling data,
+          events, or performing operations not tied to specific DOM elements.
+        </li>
+        <li>
+          <b>How it works:</b> These methods do not operate on a selection of
+          elements and do not automatically receive any particular context
+          (this). Their return values and behavior can vary based on their
+          design.
+        </li>
+        <li>
+          <b>Example:</b> The method $.each() is a utility function that
+          iterates over arrays or objects. Unlike .each(), which is called on a
+          jQuery object, $.each() is a general-purpose utility method.
+          <p>
+            <code>
+              $.each([ "foo", "bar", "baz" ], function( idx, val ) {
+              console.log( "element " + idx + " is " + val ); });<br />
+              $.each({ foo: "bar", baz: "bim" }, function( k, v ) { console.log(
+              k + " : " + v ); });
+            </code>
+            <br />
+            <b>NOTE:</b> .each(), not $.each(), should be used for iterating
+            over elements in a selection.
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <b>NOTE:</b> The distinction between object methods and utility methods
+      can be confusing. Remember:
+      <ul>
+        <li>
+          Object Methods (like .each()): Called on a jQuery object to manipulate
+          or interact with selected elements.
+        </li>
+        <li>
+          Utility Methods (like $.each()): Part of the core jQuery library and
+          not tied to specific DOM elements.
+        </li>
+        <li>
+          Some methods share names, such as $.each() and .each(). Always refer
+          to the documentation for clarity.
+        </li>
+      </ul>
+    </div>
+    <div>
+      <p>
+        <b>NOTE:</b> We iterated through an array and an object and logged their
+        values using Utility Method ($.each()).
+      </p>
+      <p>
+        Here is a link for utility methods or core jQuery methods (like
+        $.each(), $.trim(), $.proxy(), etc.):
+        <a href="https://api.jquery.com/category/utilities/">$ namespace</a>
+      </p>
+    </div>
+    <script src="../jQuery/jquery-3.7.1.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
