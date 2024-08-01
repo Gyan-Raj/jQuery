@@ -3,9 +3,64 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>jQuery Presentation</title>
+    <title>$( document ).ready()</title>
   </head>
   <body>
+    <p>
+      A page can't be manipulated safely until the document is "ready." jQuery
+      detects this state of readiness for you. Code included inside $( document
+      ).ready() will only run once the page Document Object Model (DOM) is ready
+      for JavaScript code to execute.
+      <span style="color: red">whereas</span> Code included inside $( window
+      ).on( "load", function() { ... }) will run once the entire page (images or
+      iframes), not just the DOM, is ready.
+    </p>
+    <ul>
+      <li>
+        DOM Ready ($(document).ready()):
+        <ul>
+          <li>
+            This event triggers when the DOM (Document Object Model) has been
+            fully constructed, meaning that all HTML elements are available and
+            can be manipulated. However, this does not necessarily mean that all
+            external resources, like images, videos, or iframes, have finished
+            loading.
+          </li>
+          <li>
+            It is a good point to execute scripts that modify the DOM structure,
+            handle event bindings, or initialize interactive elements, as the
+            structure of the page is complete and all elements can be accessed.
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        Window Load ($(window).on("load", function() { ... })):
+        <ul>
+          <li>
+            This event triggers after the entire page, including all associated
+            resources like images, stylesheets, scripts, and iframes, has
+            completely loaded.
+          </li>
+          <li>
+            This is often used when you need to ensure that all external
+            resources are fully loaded before executing certain scripts, such as
+            image galleries, animations that depend on images, or anything else
+            that relies on the complete loading of the entire page.
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <p>
+      In summary, use $(document).ready() when you want to run code as soon as
+      the DOM is ready, which is typically faster and sufficient for most
+      JavaScript manipulations. Use $(window).on("load", function() { ... })
+      when you need to wait for all page content to load, including external
+      resources.
+    </p>
+    <iframe src="http://techcrunch.com"></iframe><br />
+    <b> NOTE the console: </b> "document loaded" is consoled before "window
+    loaded"
     <script src="../jQuery/jquery-3.7.1.min.js"></script>
     <script src="./app.js"></script>
   </body>
