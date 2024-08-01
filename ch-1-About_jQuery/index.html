@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+    <style>
+      a {
+        color: blue;
+        font-size: 1.1em;
+        padding: 4px;
+      }
+      a.test {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="http://jquery.com/" id="jQuery">jQuery</a>
+    <p>
+      One important thing to know is that jQuery is just a JavaScript library
+    </p>
+    <p>
+      jQuery is a fast, small, and feature-rich JavaScript library. It makes
+      things like HTML document traversal and manipulation, event handling,
+      animation, and Ajax much simpler with an easy-to-use API that works across
+      a multitude of browsers. With a combination of versatility and
+      extensibility, jQuery has changed the way that millions of people write
+      JavaScript.
+    </p>
+    <h3>Launching Code on Document Ready</h3>
+    <ul>
+      <li>
+        To ensure that their code runs after the browser finishes loading the
+        document, many JavaScript programmers wrap their code in an onload
+        function: window.onload = function() { alert( "welcome" ); };
+      </li>
+      <li>
+        Unfortunately, the code doesn't run until all images are finished
+        downloading, including banner ads. To run code as soon as the document
+        is ready to be manipulated, jQuery has a statement known as the
+        <a href="http://api.jquery.com/ready/" id="readyEvent">ready event:</a>
+        $( document ).ready(function() { // Your code here. });
+      </li>
+    </ul>
+    <p>
+      <b>Note:</b> The jQuery library exposes its methods and properties via two
+      properties of the window object called jQuery and $. $ is simply an alias
+      for jQuery and it's often employed because it's shorter and faster to
+      write.
+    </p>
+    <p>
+      For example, inside the ready event, you can add a click handler to the
+      link: $(document).ready(function () { $("#readyEvent").click(function
+      (event) { alert("Thanks for visiting!"); }); }); <br />
+      Clicking the link should now first display an alert pop-up, then continue
+      with the default behavior of navigating to http://api.jquery.com/ready/
+    </p>
+    <h3>Adding and Removing an HTML Class</h3>
+    <p>
+      add some style information into the < head > of the document, like this: <
+      style > a.test { font-weight: bold; } < / style >
+    </p>
+    <p>
+      Next, add the .addClass() call to the script: $( "a" ).addClass( "test" );
+      All < a > elements are now bold.
+    </p>
+    <p>
+      To remove an existing class, use .removeClass(): $( "a" ).removeClass(
+      "test" );
+    </p>
+    <h3>Special Effects</h3>
+    <p>
+      jQuery also provides some handy effects to help you make your web sites
+      stand out. For example,
+      <a
+        href="https://learn.jquery.com/about-jquery/how-jquery-works/"
+        id="demo"
+        >Demo</a
+      >
+      if you create a click handler of: $("#demo").click(function (event) {
+      event.preventDefault(); $(this).hide("slow"); }); Then the link slowly
+      disappears when clicked.
+    </p>
+    <h3>Callbacks and Functions</h3>
+    <p>
+      A callback is a function that is passed as an argument to another function
+      and is executed after its parent function has completed. Callbacks are
+      special because they patiently wait to execute until their parent
+      finishes. Meanwhile, the browser can be executing other functions or doing
+      all sorts of other work. <br />
+      To use callbacks, it is important to know how to pass them into their
+      parent function.
+    </p>
+    <ol>
+      <li><h4>Callback without Arguments</h4></li>
+      <p>
+        If a callback has no arguments, you can pass it in like this:
+        $.get("index.html", myCallBackWithoutArgument); When $.get() finishes
+        getting the page index.html, it executes the myCallBackWithoutArgument()
+        function.
+        <br />
+        <b>Note:</b> The second parameter here is simply the function name (but
+        not as a string, <b>and without parentheses</b>).
+      </p>
+      <li>
+        <h4>
+          Callback with Arguments- Executing callbacks with arguments can be
+          tricky.
+        </h4>
+      </li>
+      <h6>Wrong- This code example will not work:</h6>
+      <p>
+        $.get( "index.html", myCallBackWithArgument( param1, param2 ) );
+        <br />
+      </p>
+      <p>
+        The reason this fails is that the code executes myCallBackWithArgument(
+        param1, param2 ) immediately and then passes myCallBackWithArgument()'s
+        return value as the second parameter to $.get(). We actually want to
+        pass the function myCallBackWithArgument(), not myCallBackWithArgument(
+        param1, param2 )'s return value (which might or might not be a
+        function). So, how to pass in myCallBackWithArgument() and include its
+        arguments?
+      </p>
+      <h6>Right- This code example will not work:</h6>
+      <p>
+        To defer executing myCallBackWithArgument() with its parameters, you can
+        use an anonymous function as a wrapper. Note the use of function() . The
+        anonymous function does exactly one thing: calls
+        myCallBackWithArgument(), with the values of param1 and param2.
+      </p>
+      <p>
+        $.get( "index.html", function() { myCallBackWithArgument( param1, param2
+        ); });
+      </p>
+      <p>
+        When $.get() finishes getting the page index.html, it executes the
+        anonymous function, which executes myCallBackWithArgument( param1,
+        param2 ).
+      </p>
+    </ol>
+    <script src="./jQuery/jquery-3.7.1.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
