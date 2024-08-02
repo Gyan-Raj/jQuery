@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selecting Elements</title>
+    <style>
+      a {
+        font-size: 1.1em;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <a href="https://api.jquery.com/category/selectors/"
+        >Complete list of selectors (link)</a
+      >
+    </div>
+    <div>
+      <p>
+        -The most basic concept of jQuery is to "select some elements and do
+        something with them." <br />
+        -jQuery supports most <u><b>CSS3 selectors</b></u
+        >, as well as some <u><b>non-standard selectors</b></u
+        >.
+      </p>
+    </div>
+    <div>
+      <h3>1. CSS3 selectors</h3>
+      <ol>
+        <li>Selecting Elements by ID</li>
+        <pre>
+          <code>$( "#myId" ); // Note IDs must be unique per page.</code>
+        </pre>
+        <li>Selecting Elements by Class Name</li>
+        <pre>
+          <code>$( ".myClass" );</code>
+        </pre>
+        <li>Selecting Elements by Attribute</li>
+        <pre>
+          <code>$( "input[name='first_name']" );</code>
+        </pre>
+        <li>Selecting Elements by Compound CSS Selector</li>
+        <pre>
+          <code>$( "#contents ul.people li" );</code>
+        </pre>
+        <li>Selecting Elements with a Comma-separated List of Selectors</li>
+        <pre>
+          <code>$( "div.myClass, ul.people" );</code>
+        </pre>
+        <li>Pseudo-Selectors</li>
+        <pre>
+          <code>$( "a.external:first" );
+          $( "tr:odd" );
+           
+          // Select all input-like elements in a form (more on this below).
+          $( "#myForm :input" );
+          $( "div:visible" );
+           
+          // All except the first three divs.
+          $( "div:gt(2)" );
+           
+          // All currently animated divs.
+          $( "div:animated" );</code>
+        </pre>
+        <b>NOTE: </b>
+        When using the :visible and :hidden pseudo-selectors, jQuery tests the
+        actual visibility of the element, not its CSS visibility or display
+        properties.
+        <br />
+        jQuery looks to see if the element's physical height and width on the
+        page are both greater than zero.
+        <br />
+        <b>However,</b>
+        this test doesn't work with < tr > elements. In the case of < tr >
+        jQuery does check the CSS display property, and considers an element
+        hidden if its display property is set to none.
+        <br />
+        <b>Also,</b>
+        elements that have not been added to the DOM will always be considered
+        hidden, even if the CSS that would affect them would render them
+        visible.
+      </ol>
+
+      <h3>2. non-standard selectors</h3>
+    </div>
+    <div>
+      <h3>#Does My Selection Contain Any Elements?</h3>
+      <p>
+        Once you've made a selection, you'll often want to know whether you have
+        anything to work with. A common mistake is to use:
+      </p>
+      <pre>
+          <code>if ( $( "div.foo" ) ) {
+            ...
+          }
+          </code>
+        </pre>
+      <b>-This Doesn't work!</b>
+      <p>
+        When a selection is made using $(), an object is always returned, and
+        objects always evaluate to true. Even if the selection doesn't contain
+        any elements, the code inside the if statement will still run.
+      </p>
+      <p>
+        The best way to determine if there are any elements is to test the
+        selection's .length property, which tells you how many elements were
+        selected. If the answer is 0, the .length property will evaluate to
+        false when used as a boolean value:
+      </p>
+      <pre>
+        <code>
+        // Testing whether a selection contains elements.
+          if ( $( "div.foo" ).length ) {
+              ...
+          }
+        </code>
+      </pre>
+      <h3>#Saving Selections</h3>
+      <p>
+        jQuery doesn't cache elements for you. If you've made a selection that
+        you might need to make again, you should save the selection in a
+        variable rather than making the selection repeatedly.
+      </p>
+      <pre>
+        <code>
+          var divs = $( "div" );
+        </code>
+      </pre>
+      <p>
+        Once the selection is stored in a variable, you can call jQuery methods
+        on the variable just like you would have called them on the original
+        selection.
+      </p>
+      <h3>#Refining & Filtering Selections</h3>
+      <p>
+        jQuery offers several methods for refining and filtering selections.
+      </p>
+      <pre>
+        <code>
+        // Refining selections.
+          $( "div.foo" ).has( "p" );         // div.foo elements that contain < p > tags
+          $( "h1" ).not( ".bar" );           // h1 elements that don't have a class of bar
+          $( "ul li" ).filter( ".current" ); // unordered list items with class of current
+          $( "ul li" ).first();              // just the first unordered list item
+          $( "ul li" ).eq( 5 );              // the sixth
+        </code>
+      </pre>
+      <h3>#Selecting Form Elements</h3>
+      <p>
+        jQuery offers several pseudo-selectors that help find elements in forms.
+        These are especially helpful because it can be difficult to distinguish
+        between form elements based on their state or type using standard CSS
+        selectors.
+      </p>
+      <ol>
+        <li>:checked</li>
+        <p>
+          Not to be confused with :checkbox, :checked targets checked
+          <b>checkboxes</b>, but keep in mind that this selector works also for
+          checked <b>radio buttons</b>, and <b>< select ></b> elements <br />
+          <b>NOTE: </b>for < select > elements only, use the :selected selector
+        </p>
+        <pre>
+          <code>
+            $( "form :checked" );
+          </code>
+        </pre>
+        <li>:disabled</li>
+        <p>
+          Using the :disabled pseudo-selector targets any < input > elements
+          with the disabled attribute:
+        </p>
+        <pre>
+          <code>
+            $( "form :disabled" );
+          </code>
+        </pre>
+        <p>
+          In order to get the best performance using :disabled, first select
+          elements with a standard jQuery selector, then use .filter(
+          ":disabled" )
+        </p>
+        <li>:enabled</li>
+        <p>
+          Basically the inverse of the :disabled pseudo-selector, the :enabled
+          pseudo-selector targets any elements that do not have a disabled
+          attribute:
+        </p>
+        <pre>
+          <code>
+            $( "form :enabled" );
+          </code>
+        </pre>
+        <p>
+          In order to get the best performance using :enabled, first select
+          elements with a standard jQuery selector, then use .filter( ":enabled"
+          )
+        </p>
+        <li>:input</li>
+        <p>
+          Using the :input selector selects all <b>< input ></b> ,<b
+            >< textarea ></b
+          >
+          , <b>< select ></b>, and <b>< button ></b> elements:
+        </p>
+        <pre>
+          <code>
+            $( "form :input" );
+          </code>
+        </pre>
+        <li>:selected</li>
+        <p>
+          Using the :selected pseudo-selector targets any selected items in <
+          option > elements:
+        </p>
+        <pre>
+          <code>
+            $( "form :selected" );
+          </code>
+        </pre>
+        <p>
+          In order to get the best performance using :selected, first select
+          elements with a standard jQuery selector, then use .filter(
+          ":selected" )
+        </p>
+        <li>Selecting by type</li>
+        jQuery provides pseudo selectors to select form-specific elements
+        according to their type:
+        <ul>
+          <li>:password</li>
+          <li>:reset</li>
+          <li>:radio</li>
+          <li>:text</li>
+          <li>:submit</li>
+          <li>:checkbox</li>
+          <li>:button</li>
+          <li>:image</li>
+          <li>:file</li>
+        </ul>
+      </ol>
+    </div>
+
+    <script src="../jQuery/jquery-3.7.1.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
