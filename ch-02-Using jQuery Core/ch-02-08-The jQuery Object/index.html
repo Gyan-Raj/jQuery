@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The jQuery Object</title>
+  </head>
+  <body>
+    <div>
+      <p>
+        When creating new elements (or selecting existing ones), jQuery returns
+        the elements in a collection. Many developers new to jQuery assume that
+        this collection is an array. It has a zero-indexed sequence of DOM
+        elements, some familiar array functions, and a .length property, after
+        all. Actually, the jQuery object is more complicated than that.
+      </p>
+    </div>
+    <div>
+      <h3></h3>
+      <p>
+        At a high level, a DOM element can be thought of as a "piece" of a web
+        page containing <b>text</b> and/or <b>other DOM elements</b> which are
+        <b>described by a type</b>, such as < div >, < a >, or < p >, and any
+        number of <b>attributes</b> such as src, href, class and so on. <br /><b
+          >These elements have properties </b
+        >like any other JavaScript object.
+        <b>These properties are attributes like</b>
+        .tagName and methods like .appendChild(). <br />
+        These properties are the only way to interact with the web page via
+        JavaScript.
+      </p>
+    </div>
+    <div>
+      <h3>The jQuery Object</h3>
+      <p>
+        Working directly with DOM elements can be awkward. The jQuery object
+        defines many methods to smooth out the experience for developers.
+      </p>
+      <ul>
+        Some benefits of the jQuery Object include:
+        <li>
+          Compatibility: -The implementation of DOM methods varies across
+          browser vendors and versions.
+          <br />
+          The following snippet attempts to set the inner HTML of a < tr >
+          element stored in target:
+          <pre>
+            <code>
+                var table = document.getElementById("table");
+                table.innerHTML = "< td>Hello <b>World</b>!< /td>";
+            </code>
+        </pre>
+          This works in many cases, but it will fail in most versions of
+          Internet Explorer. In that case, the recommended approach is to use
+          pure DOM methods instead.
+          <br />
+          By wrapping the target element in a jQuery object, these edge cases
+          are taken care of, and the expected result is achieved in all
+          supported browsers:
+          <pre>
+            <code>
+                // Setting the inner HTML with jQuery. 
+                var table = document.getElementById("table");
+                $(table).html("< td>Hello <b>World</b>!< /td>");
+            </code>
+        </pre>
+          <table id="table"></table>
+        </li>
+        <li>
+          Convenience: There are also a lot of common DOM manipulation use cases
+          that are awkward to accomplish with pure DOM methods.
+          <hr />
+          <p>
+            For instance, inserting an element stored in newElement after the
+            target element requires a rather verbose DOM method:
+          </p>
+          <pre>
+              <code>
+                  // Inserting a new element after another with the native DOM API.
+                  var target1 = document.getElementById("target1");
+                  var newElement = document.createElement("main");
+                  target1.parentNode.insertBefore(newElement, target1.nextSibling);
+                  $("#convenience").find("main").eq(0).html("sibling of target1");
+                </code>
+            </pre>
+          <hr />
+          <p>
+            By wrapping the target element in a jQuery object, the same task
+            becomes much simpler:
+          </p>
+          <pre>
+            <code>
+                // Inserting a new element after another with jQuery.
+                var target2 = document.getElementById("target2");
+                var newElement = document.createElement("article");
+                $(target2).after(newElement);
+                $("#convenience").find("article").eq(0).html("sibling of target2");
+            </code>
+          </pre>
+          <div id="convenience">
+            <div id="target1"></div>
+            <div id="target2"></div>
+          </div>
+          <hr />
+        </li>
+      </ul>
+      <div>
+        <h4>1. Getting Elements Into the jQuery Object</h4>
+        :- When the jQuery function is invoked with a CSS selector, it will
+        return a jQuery object wrapping any element(s) that match this selector.
+        For instance, writing:
+        <pre>
+            <code>
+                // Selecting all < h3 > tags.
+                var headings = $("h3");
+                console.log(headings.length);
+            </code>
+          </pre>
+        <p>
+          headings is now a jQuery object containing all the < h3 > tags already
+          on the page.
+        </p>
+        <p>
+          If the page has more than one < h3 > tag, this number will be greater
+          than one. If the page has no < h3 > tags, the .length property will be
+          zero. Checking the .length property is a common way to ensure that the
+          selector successfully matched one or more elements.
+        </p>
+        <p>
+          <b>NOTE:</b> If the goal is to select only the first heading element,
+          another step is required. There are a number of ways to accomplish
+          this, but the most straight-forward is the .eq() function.
+        </p>
+        <pre>
+            <code>
+                // Selecting only the first < h3 > element on the page (in a jQuery object)
+                var headings = $("h3");
+                var firstHeading = headings.eq(0);
+                console.log(firstHeading.length);
+            </code>
+          </pre>
+        <p>
+          Now firstHeading is a jQuery object containing only the first < h3 >
+          element on the page. And because firstHeading is a jQuery object, it
+          has useful methods like .html(), .css(), .after() etc.
+        </p>
+        <pre>
+            <code>
+                firstHeading.html("DOM and DOM Elements");
+            </code>
+          </pre>
+        <p>
+          jQuery also has a method named <b>.get()</b> which provides a related
+          function. Instead of returning a jQuery-wrapped DOM element, it
+          returns the DOM element itself.
+        </p>
+        <pre>
+            <code>                
+                // Selecting only the first < h3 > element on the page.
+                var firstHeadingElem = $( "h3" ).get( 0 );
+            </code>
+          </pre>
+        <p>
+          Alternatively, because the jQuery object is "array-like," it supports
+          array subscripting via brackets:
+        </p>
+        <pre>
+            <code>
+                // Selecting only the first < h3 > element on the page (alternate approach).
+                var firstHeadingElem = $( "h3" )[ 0 ];
+            </code>
+          </pre>
+        <p>
+          In either case, firstHeadingElem contains the native DOM element. This
+          means it has DOM properties like .innerHTML and methods like
+          .appendChild(), but not jQuery methods like .html() or .after().
+        </p>
+        <hr />
+        <div>
+          <h5>
+            Let's understand the difference between eq() and get() (or [])
+          </h5>
+          <ul>
+            <li>Purpose:</li>
+            eq(): To get a specific element from a jQuery collection as a new
+            jQuery object.
+            <br />.get() or []: To get a specific element from a jQuery
+            collection as a plain DOM element.
+            <li>Return Value</li>
+            eq(): returns a jQuery object containing the specified element.
+            <br />
+            .get() or []:returns a plain DOM element (not wrapped in a jQuery
+            object).
+            <li>Usage</li>
+            eq(): You can continue chaining jQuery methods on the returned
+            element.
+            <br />
+            get() or []: You cannot chain jQuery methods directly on the
+            returned element. You need to wrap it back in jQuery if you want to
+            use jQuery methods.
+            <li>use</li>
+            .eq(): when you want to continue using jQuery methods on the
+            selected element. It's useful for chaining and keeping your code
+            concise with jQuery's features.
+            <pre>
+                <code>
+                    // Get the first < article > inside #eqVsGet as a jQuery object
+                        var firstArticleElement = $("#eqVsGet").find("article").eq(0);
+                    // Set the HTML content of the first < article >
+                        firstArticleElement.html("targeted using .eq() method");
+                        firstArticleElement.css("color", "blue");
+                </code>
+              </pre>
+            <br />
+            .get() or []: when you need the plain DOM element, perhaps to
+            interact with it using native JavaScript methods or to pass it to a
+            function that expects a plain DOM element.
+            <pre>
+                <code>
+                    // Get the first < main > inside #eqVsGet as a DOM element
+                        var firstMainElement = $("#eqVsGet").find("main").get(0);
+                    // Set the HTML content of the first < div > using plain JavaScript
+                        firstMainElement.innerHTML = "targeted using .get() method";
+                        firstMainElement.style.color = "green";
+
+                    <----------------------------OR---------------------------->
+                    
+                    // Get the first < section > inside #eqVsGet as a DOM element
+                        var firstSectionElement = $("#eqVsGet").find("section")[0];
+                    // Set the HTML content of the first < div > using plain JavaScript
+                        firstSectionElement.innerHTML = "targeted using [] method";
+                        firstSectionElement.style.color = "green";
+                </code>
+              </pre>
+          </ul>
+          <section id="eqVsGet">
+            <article></article>
+            <main></main>
+            <section></section>
+          </section>
+        </div>
+        <hr />
+        <h4>2.Not All jQuery Objects are Created</h4>
+        <p>
+          An important detail regarding this "wrapping" behavior is that each
+          wrapped object is unique. This is true even if the object was created
+          with the same selector or contain references to the exact same DOM
+          elements.
+        </p>
+        <pre>
+            <code>
+                var ele1 = $("#element");
+                var ele2 = $("#element");
+                console.log(ele1 == ele2); //false
+                console.log(ele1 === ele2); //false
+                console.log(ele1); //ce.fn.init {0: main#element, length: 1}
+                console.log(ele2); //ce.fn.init {0: main#element, length: 1}
+            </code>
+        </pre>
+        <pre>
+            <code>
+                var ele3 = $("#element").get(0);
+                var ele4 = $("#element").get(0);
+                console.log(ele3 == ele4); //true
+                console.log(ele3 === ele4); //true
+                console.log(ele3); //< main id="element">< / main>
+                console.log(ele4); //< main id="element">< / main>
+            </code>
+        </pre>
+        <main id="element"></main>
+        <h4>3. jQuery Objects Are Not "Live"</h4>
+        Given a jQuery object with all the paragraph elements on the page:
+        <pre>
+            <code>
+                //Selecting all < p > elements on the page.
+                var allParagraphs = $( "p" );
+
+            </code>
+        </pre>
+        <p>
+          One might expect that the contents will grow and shrink over time as <
+          p> elements are added and removed from the document. jQuery objects do
+          not behave in this manner. The set of elements contained within a
+          jQuery object will not change unless explicitly modified. This means
+          that the collection is not "live" - it does not automatically update
+          as the document changes. <br />
+          If the document may have changed since the creation of the jQuery
+          object, the collection should be updated by creating a new one. It can
+          be as easy as re-running the same selector:
+        </p>
+        <pre>
+            <code>
+                // Updating the selection.
+                allParagraphs = $( "p" );
+            </code>
+        </pre>
+      </div>
+    </div>
+    <script src="../jQuery/jquery-3.7.1.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
