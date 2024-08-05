@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Using jQuery’s .index() Function</title>
+  </head>
+  <body>
+    <div>
+      <p>
+        <b>.index()</b> is a method on jQuery objects that's generally used to
+        search for a given element within the jQuery object that it's called on.
+      </p>
+      <p>
+        <b>NOTE: </b>The .index() method in jQuery returns the position of the
+        first element within the set of matched elements relative to its sibling
+        elements.
+      </p>
+      <p>
+        This method has four different signatures with different semantics that
+        can be confusing:
+      </p>
+    </div>
+    <div id="index">
+      <ol>
+        <li id="noArgs">.index() with No Arguments</li>
+        <pre>
+          <code>
+            var index = $("#index");
+            console.log(index.index()); //1
+            console.log(index.first().index()); //1
+            var ol = $("ol");
+            console.log(ol.index()); //0
+            console.log(ol.first().index()); //0
+            var noArgs = $("#noArgs");
+            console.log(noArgs.index()); //0
+            console.log(noArgs.first().index()); //0
+          </code>
+        </pre>
+        <li id="strArgs">.index() with a String Argument</li>
+        <pre>
+          <code>
+            var index = $("#index");
+            console.log(index.index("div")); //1
+            console.log(index.first().index("div")); //1
+            var ol = $("ol");
+            console.log(ol.index("ol")); //0
+            console.log(ol.first().index("ol")); //0
+            var strArgs = $("#strArgs");
+            console.log(strArgs.index("#strArgs")); //0
+            console.log(strArgs.first().index("#strArgs")); //0
+          </code>
+        </pre>
+        <p>
+          When .index() is called with a string argument, there are two things
+          to consider:
+        </p>
+        <ul>
+          <li>
+            First, jQuery will implicitly call .first() on the original jQuery
+            object. It will find the index of the first element. This is
+            inconsistent, so be careful here.
+          </li>
+          <li>
+            The second point to consider is that jQuery is querying the entire
+            DOM using the passed in string selector and checking the index
+            within that newly queried jQuery object. For example, when using
+            .index( "div" ) in the last example above (var index = $("#index");
+            console.log(index.index("div"));), jQuery is selecting all of the <
+            div > elements in the document, then searching for the index that
+            contains the first element in the jQuery object .index() is called
+            on.
+          </li>
+        </ul>
+        <li id="objArgs">.index() with a jQuery Object Argument</li>
+        <pre>
+          <code>
+            var ol = $("ol");
+            console.log(ol.index(ol)); //0
+            console.log(ol.first().index(ol)); //0
+            var noArgs = $("#noArgs");
+            console.log(noArgs.index(noArgs)); //0
+            console.log(noArgs.first().index(noArgs)); //0
+          </code>
+        </pre>
+        <li id="domElementArgs">.index() with a DOM Element Argument</li>
+        <p>
+          In this case, the DOM element that's passed into .index() is being
+          checked against all of the elements in the original jQuery object.
+          Once all other cases are understood, this should be the simplest case.
+          It is very similar to the previous case, except since the DOM element
+          is passed directly, it is not taken from a jQuery object container.
+        </p>
+      </ol>
+    </div>
+    <script src="../jQuery/jquery-3.7.1.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
