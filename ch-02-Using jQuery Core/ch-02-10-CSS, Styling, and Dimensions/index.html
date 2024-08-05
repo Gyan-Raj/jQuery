@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS, Styling, & Dimensions</title>
+    <style>
+      .highlight {
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <p>
+        jQuery includes a handy way to get and set CSS properties of elements:
+      </p>
+      <p>
+        <b>.css()</b> method as a string either can be camelCased or hyphenated
+      </p>
+      <pre>
+        <code>
+          // Getting CSS properties.
+          $("h1").css("fontSize"); // Returns a string such as "19px".
+          $("h1").css("font-size"); // Also works.
+        </code>
+      </pre>
+    </div>
+    <div>
+      <p></p>
+      <pre>
+        <code>
+          // Setting an individual property.
+          $("pre").css("color", "blue");
+          // Setting multiple properties.
+          $("pre").css({
+            borderRight: "1px solid blue",
+            borderTop: "1px solid blue",
+          });
+        </code>
+      </pre>
+      <p>
+        Note the style of the argument on the second line – it is an object that
+        contains multiple properties. This is a common way to pass multiple
+        arguments to a function, and many jQuery setter methods accept objects
+        to set multiple values at once.
+      </p>
+      <p>
+        <b>NOTE:</b>It's not recommended to use .css() as a setter in
+        production-ready code
+      </p>
+    </div>
+    <div>
+      <h3>Using CSS Classes for Styling</h3>
+      <button>Click to highlight this heading</button>
+      <p>
+        As a getter, the .css() method is valuable. However, it should generally
+        be avoided as a setter in production-ready code, because it's generally
+        best to keep presentational information out of JavaScript code.
+      </p>
+      <p>
+        Instead, write CSS rules for classes that describe the various visual
+        states, and then change the class on the element.
+      </p>
+    </div>
+    <div>
+      <h3>Dimensions</h3>
+      <p>jQuery offers a variety of methods for obtaining and modifying dimension and position information about an element.</p>
+    </div>
+    <script src="../jQuery/jquery-3.7.1.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
