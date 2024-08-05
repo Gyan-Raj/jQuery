@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iterating over jQuery and non-jQuery Objects</title>
+  </head>
+  <body>
+    <div>
+      <p>
+        jQuery provides an object iterator utility called $.each() as well as a
+        jQuery collection iterator: .each().
+        <b>These are not interchangeable</b>. In addition, there are a couple of
+        helpful methods called $.map() and .map() that can shortcut one of our
+        common iteration use cases.
+      </p>
+    </div>
+    <div>
+      <h3>Iterating over non-jQuery Objects</h3>
+      <ol>
+        <li>
+          $.each(): -it is essentially a drop-in replacement of a traditional
+          for or for-in loop
+        </li>
+        <p>
+          $.each() is a generic iterator function for looping over object,
+          arrays, and array-like objects.
+        </p>
+        <ul>
+          <li>Plain objects are iterated via their named properties</li>
+          <pre>
+            <code>
+              var sum = 0;
+              var obj = {
+                ele1: 1,
+                ele2: 2,
+                ele3: 3,
+                ele4: 4,
+                ele5: 5,
+              };
+
+              //using for-in loop
+              for (let value in obj) {
+                sum += obj[value];
+              }
+              console.log(sum); // 15
+
+              //we can replace this for-in loop with $.each() as:
+              $.each(obj, (key, value) => (sum += value));
+              console.log(sum); // 15
+              <b>NOTE: </b>Noteice that we don't have to directly access obj[ value ] as the value is passed directly to the callback
+            </code>
+          </pre>
+          <li>Arrays and array-like objects are iterated via their indices.</li>
+          <pre>
+            <code>
+              var sum = 0;
+              var arr = [1, 2, 3, 4, 5];
+
+              //using for loop
+              for (let i = 0; i < arr.length; i++) {
+                sum += arr[i];
+              }
+              console.log(sum); // 15
+
+              //we can replace this for loop with $.each() as:
+              $.each(arr, (index, value) => (sum += value));
+              console.log(sum); // 15
+              <b>NOTE: </b>Notice that we don't have to access arr[ index ] as the value is conveniently passed to the callback in $.each().
+            </code>
+          </pre>
+        </ul>
+        <li>
+          $.map(): works on plain JavaScript arrays. Because it's working on a
+          plain array, $.map() returns a plain array, and .get() does not need
+          to be called - in fact, it will throw an error as it's not a native
+          JavaScript method.
+        </li>
+        <p>
+          A word of warning: $.map() switches the order of callback arguments.
+          This was done in order to match the native JavaScript .map() method
+          made available in ECMAScript 5.
+        </p>
+        <pre>
+          <code>
+            var arr = [
+                        {
+                          id: "a",
+                          tagName: "li",
+                        },
+                        {
+                          id: "b",
+                          tagName: "li",
+                        },
+                        {
+                          id: "c",
+                          tagName: "li",
+                        },
+                      ];
+            $.map(arr, function (value, index) {
+              console.log(value.id);  //a //b //c
+            });
+          </code>
+        </pre>
+      </ol>
+    </div>
+    <div>
+      <h3>Iterating over jQuery Objects</h3>
+      <ol>
+        <li>.each(): it is used directly on a jQuery collection.</li>
+        <p>
+          It iterates over each matched element in the collection and performs a
+          callback on that object. The index of the current element within the
+          collection is passed as an argument to the callback. The value/element
+          (the DOM element in this case) is also passed, but the callback is
+          fired within the context of the current matched element so the this
+          keyword points to the current element as expected in other jQuery
+          callbacks.
+        </p>
+        <pre>
+          <code>
+            $("li").each(function (index, element) {
+              console.log($(this).text());
+            });
+          </code>
+        </pre>
+        <li>.map(): works on jQuery element collections.</li>
+        <p>
+          Anytime we want to create an array or concatenated string based on all
+          matched elements in our jQuery selector, we're better served using
+          .map()
+        </p>
+        <pre>
+          <code>
+            $("li")
+              .map(function (index, element) {
+                console.log(this.text());
+              })
+              .get();
+          </code>
+        </pre>
+      </ol>
+    </div>
+    <script src="../jQuery/jquery-3.7.1.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
