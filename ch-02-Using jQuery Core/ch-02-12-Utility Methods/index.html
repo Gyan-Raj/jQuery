@@ -6,6 +6,147 @@
     <title>Utility Methods</title>
   </head>
   <body>
+    <div>
+      <a href="https://api.jquery.com/category/utilities/"
+        >Complete Utility Methods (link)</a
+      >
+    </div>
+    <div>
+      <p>
+        jQuery offers several utility methods in the $ namespace. Below are
+        examples of a few of the utility methods:
+      </p>
+      <ul>
+        <li>$.trim()</li>
+        Removes leading and trailing whitespace:
+        <pre>
+            <code>
+                $.trim( "    lots of extra whitespace    " );
+            </code>
+        </pre>
+        <li>$.each()</li>
+        Iterates over arrays and objects:
+        <pre>
+            <code>
+                $.each([ "foo", "bar", "baz" ], function( idx, val ) {
+                    console.log( "element " + idx + " is " + val );
+                });
+                 
+                $.each({ foo: "bar", baz: "bim" }, function( k, v ) {
+                    console.log( k + " : " + v );
+                });
+            </code>
+        </pre>
+        <p>
+          The method .each() can be called on a selection to iterate over the
+          elements contained in the selection. .each(), not $.each(), should be
+          used for iterating over elements in a selection.
+        </p>
+        <li>$.inArray()</li>
+        Returns a value's index in an array, or -1 if the value is not in the
+        array:
+        <pre>
+            <code>
+                var myArray = [ 1, 2, 3, 5 ];
+                if ( $.inArray( 4, myArray ) !== -1 ) {
+                console.log( "found it!" );
+                }
+            </code>
+        </pre>
+        <li>$.extend()</li>
+        Changes the properties of the first object using the properties of
+        subsequent objects:
+        <pre>
+            <code>
+                var firstObject = { foo: "bar", a: "b" };
+                var secondObject = { foo: "baz" };
+                var newObject = $.extend(firstObject, secondObject);
+                console.log(firstObject.foo); // "baz"
+                console.log(newObject.foo); // "baz"
+            </code>
+        </pre>
+        <p>
+          If you don't want to change any of the objects you pass to $.extend(),
+          pass an empty object as the first argument:
+        </p>
+        <pre>
+            <code>
+                var firstObject = { foo: "bar", a: "b" };
+                var secondObject = { foo: "baz" };
+                var newObject = $.extend({}, firstObject, secondObject);
+                console.log(firstObject.foo); // "bar"
+                console.log(newObject.foo); // "baz"
+            </code>
+        </pre>
+        <li>$.proxy()</li>
+        Returns a function that will always run in the provided scope — that is,
+        sets the meaning of this inside the passed function to the second
+        argument.
+        <pre>
+            <code>
+                var myFunction = function () {
+                    console.log(this);
+                  };
+                  var myObject = {
+                    foo: "bar",
+                  };
+                  myFunction(); // window
+                  var myProxyFunction = $.proxy(myFunction, myObject);
+                  myProxyFunction(); // myObject
+            </code>
+        </pre>
+        <p>
+          If you have an object with methods, you can pass the object and the
+          name of a method to return a function that will always run in the
+          scope of the object.
+        </p>
+        <pre>
+            <code>
+                var myObject = {
+                    myFn: function() {
+                        console.log( this );
+                    }
+                };                 
+                $("#foo").click(myObject.myFn); // < button id="foo">Click me (#foo) < / button>
+                $("#foo").click($.proxy(myObject, "myFn")); // {myFn: ƒ}
+            </code>
+        </pre>
+        <button id="foo">Click me (#foo)</button>
+        <li>Testing Type</li>
+        First of all, you have methods to test if a specific value is of a
+        specific type.
+        <pre>
+            <code>
+                console.log($.isArray([])); // true
+                console.log($.isFunction(function () {})); //true
+                console.log($.isNumeric(3.14)); // true
+            </code>
+        </pre>
+        <p>
+          Additionally, there is $.type() which checks for the internal class
+          used to create a value.
+        </p>
+        <pre>
+            <code>
+                console.log($.type(true)); // "boolean"
+                console.log($.type(3)); // "number"
+                console.log($.type("test")); // "string"
+                console.log($.type(function () {})); // "function" //NOTE: console.log(typeof function () {}); //function
+
+                console.log($.type(new Boolean())); // "boolean" //NOTE: console.log(typeof new Boolean()); // "object"
+                console.log($.type(new Number(3))); // "number" //NOTE: console.log(typeof new Number(3)); // "object"
+                console.log($.type(new String("test"))); // "string" //NOTE: console.log(typeof new String("test")); // "object"
+                console.log($.type(new Date())); // "date" //NOTE: console.log(typeof new Date()); // "object"
+                console.log($.type(new Function())); // "function" //NOTE: console.log(typeof new Function()); // <b>"function"</b> (not object)
+
+                console.log($.type([])); // <b>"array"</b> //NOTE: console.log(typeof []); // <b>"object"</b>
+                console.log($.type(null)); // <b>"null"</b> //NOTE: console.log(typeof null); // "object"
+                console.log($.type(/test/)); // <b>"regexp"</b> //NOTE: console.log(typeof /test/); // "object"
+
+            </code>
+        </pre>
+      </ul>
+    </div>
     <script src="../jQuery/jquery-3.7.1.min.js"></script>
     <script src="./app.js"></script>
   </body>
