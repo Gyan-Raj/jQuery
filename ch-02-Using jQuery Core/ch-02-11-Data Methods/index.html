@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Methods</title>
+  </head>
+  <body>
+    <div>
+      <p>
+        There's often <b>data</b> about an element you want to store with the
+        element. In plain JavaScript, you might do this by adding a property to
+        the DOM element, but you'd have to deal with memory leaks in some
+        browsers. jQuery offers a straightforward way to store data related to
+        an element, and it manages the memory issues for you.
+      </p>
+      <b>.data()</b> will be used
+      <p>
+        The .data() method in jQuery is used to store and retrieve data
+        associated with DOM elements.
+      </p>
+    </div>
+    <div>
+      <h3>Store data:</h3>
+      <pre>
+        <code>
+          $(selector).data(key, value);
+        </code>
+      </pre>
+      <h3>Retrieve data:</h3>
+      <pre>
+        <code>
+          $(selector).data(key);
+        </code>
+      </pre>
+      <h3>Retrieve all data:</h3>
+      <pre>
+        <code>
+          $(selector).data();
+        </code>
+      </pre>
+    </div>
+    <div>
+      <p>
+        The .data() method can be particularly useful for storing extra
+        information that needs to be available for scripting purposes but
+        shouldn't be displayed directly in the DOM.
+      </p>
+    </div>
+    <div>
+      <h3>Practical Use Case</h3>
+      <p>
+        Imagine you have a list of items, and you want to attach additional data
+        to each item, like an ID or other meta-information:
+      </p>
+      <ul>
+        <li id="item1">Item 1</li>
+        <li id="item2">Item 2</li>
+        <li id="item3">Item 3</li>
+      </ul>
+    </div>
+    <div>
+      <pre>
+        <code>
+          $("#item1").data("info", { id: 101, name: "Item One" });
+          $("#item2").data("info", { id: 102, name: "Item Two" });
+          $("#item3").data("info", { id: 103, name: "Item Three" });
+
+          $("li").each(function () {
+            var info = $(this).data("info");
+            console.log("ID: " + info.id + ", Name: " + info.name);
+
+            var allData = $(this).data();
+            console.log("All data for " + $(this).text() + ":", allData);
+          });
+        </code>
+      </pre>
+    </div>
+    <div>
+      <p>we can also add single values without using object as:</p>
+      <pre>
+        <code>
+          $("#item1").data("category", "Category A");
+          $("#item2").data("category", "Category A");
+          $("#item3").data("category", "Category A");
+
+          $("li").each(function () {
+            var info = $(this).data("info");
+            console.log("ID: " + info.id + ", Name: " + info.name);
+
+            var allData = $(this).data();
+            console.log("All data for " + $(this).text() + ":", allData);
+
+            var category = $(this).data("category");
+            console.log("Category: " + $(this).data("category"));
+          });
+        </code>
+      </pre>
+    </div>
+    <script src="../jQuery/jquery-3.7.1.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
